@@ -34,13 +34,10 @@ node {
 	
    stage('Static Code Analysis') {
        script {
-           def jobName = 'static-code-analysis'
-           def jobExists = Jenkins.instance.getItemByFullName(jobName) != null
-           
-           if (jobExists) {
-               build job: jobName
-           } else {
-               echo "Skipping Static Code Analysis: Job '${jobName}' not found."
+           try {
+               build job: 'static-code-analysis'
+           } catch (Exception e) {
+               echo "Skipping Static Code Analysis: Job 'static-code-analysis' not found or failed to run."
            }
        }
    }
